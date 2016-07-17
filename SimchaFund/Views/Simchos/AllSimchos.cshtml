@@ -1,0 +1,27 @@
+﻿@using SimchaFund.data;
+@using SimchaFund.Models;
+@model AllSimchosViewModel
+
+<h1 style="text-align:center">Simchas</h1>
+<a href="/Simchos/AddSimcha" class="btn btn-success">New Simcha</a>
+<table style="margin-top:10px" class="table table-bordered table-hover table-striped">
+    <tr>
+        <th>Contributions</th>
+        <th>Simcha Name</th>
+        <th>Simcha Date</th>
+        <th>Contributor Count</th>
+        <th>Total</th>
+        <th>List of Contributors</th>
+    </tr>
+    @foreach(SimchaViewModel s in Model.AllSimchos)
+    {
+        <tr>
+            <td><a href="/Simchos/Contributions?id=@s.Simcha.Id" class="btn btn-primary">Contributions</a></td>
+            <td>@s.Simcha.BalSimchaName</td>
+            <td>@s.Simcha.SimchaDate</td>
+            <td>@s.AmountOfContributorsForSimcha/@Model.AmountOfContributors</td>
+            <td>$@s.TotalContributionsForSimcha</td>
+            <td><a href="/Simchos/ContributorsForSimcha?id=@s.Simcha.Id" class="btn btn-danger">Contributors</a></td>
+        </tr>
+    }
+</table>

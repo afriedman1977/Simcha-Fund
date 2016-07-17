@@ -1,0 +1,47 @@
+﻿@using SimchaFund.data;
+@using SimchaFund.Models;
+@model AllContributorsViewModel
+
+<div style="text-align:center"><h1>Contributors</h1></div>
+<br />
+<div class="row">
+    <div class="col-md-2" >
+        <a href="/Contributors/AddContributor" class="btn btn-success">New contributor</a>
+    </div>   
+        <div class="col-md-4 col-md-offset-2" style="margin-top:20px">
+            <input type="text" id="search" placeholder="search"/>
+            <button class="btn btn-info" id="clear">Clear</button>
+        </div>       
+    <div class="col-md-offset-1 col-md-2">
+        <h3>Total:@Model.TotalBalance.ToString("C")</h3>
+    </div>
+</div>
+<table class="table table-bordered table-hover table-striped" style="margin-top:10px" id="contributors">
+    <tr>
+        <th>Deposit</th>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Balance</th>
+        <th>Always Include</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (ContributorViewModel c in Model.AllContributors)
+    {
+        <tr>
+            <td><a href="/Contributors/AddDeposit?id=@c.Contributor.Id" class="btn btn-primary">Deposit</a></td>
+            <td>@c.Contributor.Name</td>
+            <td>@c.Contributor.PhoneNumber</td>
+            <td>@c.Balance.ToString("C")</td>
+            <td>
+                @if (c.Contributor.AlwaysInclude)
+                {
+                    <span style="font-size:20px;" class="glyphicon glyphicon-ok-sign"></span>
+                }
+                </td>                
+            <td>
+                <a href="/Contributors/History?id=@c.Contributor.Id" class="btn btn-info">Show History</a>
+                <a href="/Contributors/EditContributor?id=@c.Contributor.Id" class="btn btn-danger">Edit</a>
+            </td>
+        </tr>
+    }
+</table>

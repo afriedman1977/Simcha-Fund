@@ -1,0 +1,12 @@
+﻿@using SimchaFund.data;
+@using SimchaFund.Models;
+@model SimchaViewModel
+
+<h1 style="text-align:center">Contribututors for @Model.Simcha.BalSimchaName @Model.Simcha.SimchaDate.ToShortDateString()</h1>
+
+<ul>
+    @foreach(ContributionForSimcha s in Model.NamesOfContributorsForSimcha)
+    {
+        <li>@s.Name - @s.Amount.ToString("C")</li>
+    }
+</ul>

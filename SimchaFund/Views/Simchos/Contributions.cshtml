@@ -1,0 +1,63 @@
+﻿@using SimchaFund.data;
+@using SimchaFund.Models;
+@model AllContributorsViewModel
+
+<h1 style="text-align:center">Contributions for @Model.CurrentSimcha.BalSimchaName</h1>
+<div class="row" style="margin-bottom:15px">
+    <div class="col-md-4 col-md-offset-4" style="margin-top:20px">
+        <input type="text" id="search" placeholder="search" />
+        <button class="btn btn-info" id="clear">Clear</button>
+    </div>
+</div>
+<form action="/Simchos/SubmitContributions" method="POST">
+    <table class="table table-bordered table-hover table-striped" id="contributors">
+        <tr>
+            <th>Contribute</th>
+            <th>Name</th>
+            <th>Balance</th>
+            <th>always Include</th>
+            <th>Amount</th>
+        </tr>
+        @*@foreach (ContributorViewModel c in Model.AllContributors)*@
+        @for (int x = 0; x < Model.AllContributors.Count; x++)
+        {
+            <tr>
+                @if (Model.AllContributors[x].Deposited)
+                {
+                    <td><input type="checkbox" name="contributors[@x].Contribute" value="true" class="check" checked data-on-text="Yes" data-off-text="No"></td>
+                    @*<td><div class="make-switch"><label><input type="checkbox" name="contributors[@x].Contribute" value="true" checked id="check" /> Contribute</label></div></td>*@
+                }
+                else
+                {
+                    <td><input type="checkbox" name="contributors[@x].Contribute" value="true" class="check" data-on-text="Yes" data-off-text="No"></td>
+                    @*<td><div class="make-switch"><label><input type="checkbox" name="contributors[@x].Contribute" value="true" id="check" /> Contribute</label></div></td>*@
+                }
+                <td>@Model.AllContributors[x].Contributor.Name</td>
+                <td>@Model.AllContributors[x].Balance.ToString("C")</td>
+                <td>
+                    @if (Model.AllContributors[x].Contributor.AlwaysInclude)
+                    {
+                        <span style="font-size:20px;" class="glyphicon glyphicon-ok-sign"></span>
+                    }
+                </td>
+                <td>
+                    <input type="hidden" name="contributors[@x].ContributorId" value="@Model.AllContributors[x].Contributor.Id" />
+                    <input type="hidden" name="contributors[@x].SimchaId" value="@Model.CurrentSimcha.Id" />
+                    @if (Model.AllContributors[x].Deposited)
+                    {
+                        <input type="text" class="input-sm" name="contributors[@x].Amount" value=@Model.AllContributors[x].Amount />
+                    }
+                    else
+                    {
+                        <input type="text" class="input-sm" name="contributors[@x].Amount" value=5 />
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <button class="btn btn-success btn-block">Submit</button>
+        </div>
+    </div>
+</form>
